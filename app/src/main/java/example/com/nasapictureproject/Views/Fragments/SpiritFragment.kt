@@ -22,7 +22,7 @@ class SpiritFragment : Fragment() {
     ): View? {
         notificationsViewModel =
                 ViewModelProvider(this).get(SpiritViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val root = inflater.inflate(R.layout.fragment_spirit, container, false)
         val textView: TextView = root.findViewById(R.id.text_notifications)
         notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it

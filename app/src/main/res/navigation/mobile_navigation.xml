@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="example.com.nasapictureproject.Views.Fragments.CuriosityFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_curiosity" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="example.com.nasapictureproject.Views.Fragments.OpporityFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_oppority" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="example.com.nasapictureproject.Views.Fragments.SpiritFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_spirit" />
 </navigation>
