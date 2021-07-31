@@ -1,4 +1,4 @@
-package example.com.nasapictureproject.ui.dashboard
+package example.com.nasapictureproject.Views.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import example.com.nasapictureproject.R
+import example.com.nasapictureproject.ViewModels.OppotunityViewModel
 
-class DashboardFragment : Fragment() {
+class OpporityFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var dashboardViewModel: OppotunityViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -20,7 +21,7 @@ class DashboardFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
+                ViewModelProvider(this).get(OppotunityViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
