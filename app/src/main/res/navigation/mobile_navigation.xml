@@ -3,23 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_curiosity">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_curiosity"
         android:name="example.com.nasapictureproject.Views.Fragments.CuriosityFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_curiosity" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_oppority"
         android:name="example.com.nasapictureproject.Views.Fragments.OpporityFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_oppority" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_spirit"
         android:name="example.com.nasapictureproject.Views.Fragments.SpiritFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_spirit" />
+    <fragment
+        android:id="@+id/onPauseFragment"
+        android:name="example.com.nasapictureproject.Views.Fragments.OnPauseFragment"
+        android:label="fragment_on_pause"
+        tools:layout="@layout/fragment_on_pause" />
 </navigation>
