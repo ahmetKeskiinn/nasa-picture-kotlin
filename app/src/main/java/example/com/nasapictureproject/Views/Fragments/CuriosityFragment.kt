@@ -1,6 +1,7 @@
 package example.com.nasapictureproject.Views.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.inflate
@@ -19,10 +20,11 @@ import example.com.nasapictureproject.ViewModels.CuriosityViewModel
 
 class CuriosityFragment : Fragment() {
     private lateinit var sharedPref:CurrentFragment
-
-    private lateinit var homeViewModel: CuriosityViewModel
+    private var TAG = "CURIOSITY FRAGMENT"
+    private lateinit var vm: CuriosityViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var root: View
+
 
     //  private lateinit var navhostFragment: Fragment
     override fun onCreateView(
@@ -30,8 +32,6 @@ class CuriosityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(CuriosityViewModel::class.java)
         root = inflater.inflate(R.layout.fragment_curiosity, container, false)
         return root
     }
@@ -60,13 +60,19 @@ class CuriosityFragment : Fragment() {
         initShared()
         initialUI()
         initRecycler()
+        hookVM("curiosity", 1,10)
         super.onResume()
     }
     private fun initialUI() {
+        vm =ViewModelProvider(this).get(CuriosityViewModel::class.java)
         recyclerView = root.findViewById(R.id.coriosityRecyclerView)
     }
-    private fun hookVM(){
+    private fun hookVM(name:String,per_page:Int,page:Int){
         //The job will be done!
+        vm.hook(name,per_page,page)
+        vm.gameList.observe(this, Observer {
+            Log.d("TAG", "hookVM: " + it)
+        })
     }
     private fun initShared(){
         val sharedPref = CurrentFragment()

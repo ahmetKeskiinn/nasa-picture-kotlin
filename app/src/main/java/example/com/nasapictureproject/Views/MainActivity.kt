@@ -8,22 +8,30 @@ import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import example.com.nasapictureproject.Models.AllPhotos
+import example.com.nasapictureproject.Models.Photo
 import example.com.nasapictureproject.R
+import example.com.nasapictureproject.Utils.Api
 import example.com.nasapictureproject.Utils.CurrentFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+    private var TAG = "Activity Main"
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var sharedPref:CurrentFragment
-
+    private lateinit var api:Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -83,7 +91,5 @@ class MainActivity : AppCompatActivity() {
     private fun initSharedPref(){
         sharedPref = CurrentFragment()
         sharedPref.instancePref(applicationContext)
-
     }
-
-}
+    }

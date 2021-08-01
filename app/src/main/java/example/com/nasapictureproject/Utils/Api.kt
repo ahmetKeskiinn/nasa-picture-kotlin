@@ -13,22 +13,16 @@ import retrofit2.http.Query
 
 interface Api {
 
-    @GET("mars-photos/api/v1/rovers/{name}/photos?sol=1000&api_key=TukSIbms13lxHiJLgzzXxbLjulL6AIzTCFVnzPFo")
-    suspend fun getPhotos(@Path("name") name : String,
+    @GET("mars-photos/api/v1/rovers/{name}/photos?sol=1000&api_key=414sf6SmLhHvQVQ3csrwEAduNQ9wFNbXV6gajEXe")
+    fun getPhotos(@Path("name") name : String,
                           @Query("per_page")per_page:Int?,
-                          @Query("page") page: Int):
-
-            Response<AllPhotos>
+                          @Query("page") page: Int):Call<AllPhotos>
 
 
-    @GET("mars-photos/api/v1/rovers/{name}/photos?sol=1000&api_key=TukSIbms13lxHiJLgzzXxbLjulL6AIzTCFVnzPFo")
-    suspend fun getFilterdFotos(@Path("name") name : String,
+    @GET("mars-photos/api/v1/rovers/{name}/photos?sol=1000&api_key=414sf6SmLhHvQVQ3csrwEAduNQ9wFNbXV6gajEXe")
+    fun getFilterdFotos(@Path("name") name : String,
                                 @Query("per_page")per_page:Int?,
-                                @Query("page") page: Int, @Query("camera") camera:String):
-
-            Response<AllPhotos>
-
-
+                                @Query("page") page: Int, @Query("camera") camera:String):Call<AllPhotos>
 
     companion object {
 

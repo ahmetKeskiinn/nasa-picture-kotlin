@@ -14,7 +14,7 @@ import example.com.nasapictureproject.ViewModels.OppotunityViewModel
 
 class OpporityFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: OppotunityViewModel
+    private lateinit var vm: OppotunityViewModel
     private lateinit var sharedPref:CurrentFragment
 
     override fun onCreateView(
@@ -22,13 +22,8 @@ class OpporityFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProvider(this).get(OppotunityViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_oppority, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         return root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +36,7 @@ class OpporityFragment : Fragment() {
 
     override fun onResume() {
         initShared()
+        initialUI()
         super.onResume()
     }
 
@@ -60,6 +56,9 @@ class OpporityFragment : Fragment() {
         val sharedPref = CurrentFragment()
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("oppority")
+    }
+    private fun initialUI(){
+        vm = ViewModelProvider(this).get(OppotunityViewModel::class.java)
     }
 
 

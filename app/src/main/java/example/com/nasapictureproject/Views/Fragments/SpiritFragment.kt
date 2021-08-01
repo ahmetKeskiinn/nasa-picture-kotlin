@@ -14,7 +14,7 @@ import example.com.nasapictureproject.ViewModels.SpiritViewModel
 
 class SpiritFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: SpiritViewModel
+    private lateinit var vm: SpiritViewModel
     private lateinit var sharedPref:CurrentFragment
 
     override fun onCreateView(
@@ -22,13 +22,8 @@ class SpiritFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-                ViewModelProvider(this).get(SpiritViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_spirit, container, false)
-        val textView: TextView = root.findViewById(R.id.text_notifications)
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         return root
     }
 
@@ -42,6 +37,7 @@ class SpiritFragment : Fragment() {
 
     override fun onResume() {
         initShared()
+        initialUI()
         super.onResume()
     }
 
@@ -61,5 +57,8 @@ class SpiritFragment : Fragment() {
         val sharedPref = CurrentFragment()
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("spirit")
+    }
+    private fun initialUI(){
+        vm = ViewModelProvider(this).get(SpiritViewModel::class.java)
     }
 }
