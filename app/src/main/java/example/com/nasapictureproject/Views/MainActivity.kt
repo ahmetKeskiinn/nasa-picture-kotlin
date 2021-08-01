@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.navigation_spirit)
 
         }
-      //  navController.navigate(R.id.onPauseFragment)
         navView.isVisible = true
     }
     private fun initSharedPref(){
