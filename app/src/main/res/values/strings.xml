@@ -5,4 +5,9 @@
     <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="downloadTitle">Download Photo</string>
+    <string name="wantToDownload">Do You Want To Download This Photo?</string>
+    <string name="mediaDownloading">Media will be download!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
