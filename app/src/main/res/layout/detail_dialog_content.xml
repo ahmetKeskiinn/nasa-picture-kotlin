@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/detailLayout">
+
+    <ImageView
+        android:id="@+id/dialogContentImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="-1dp"
+        tools:srcCompat="@tools:sample/avatars" />
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/CamerafullName"
+            style="@style/detailText1"
+            android:text="@string/cameraFullName" />
+
+        <TextView
+            android:id="@+id/CamerafullNameTw"
+            style="@style/detailText2"
+ />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/cameraID"
+            style="@style/detailText1"
+            android:text="@string/cameraID" />
+
+        <TextView
+            android:id="@+id/cameraIDTw"
+            style="@style/detailText2"
+ />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+
+        <TextView
+            android:id="@+id/cameraName"
+            style="@style/detailText1"
+            android:text="@string/cameraName" />
+
+        <TextView
+            android:id="@+id/cameraNameTw"
+            style="@style/detailText2"
+ />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/earthDate"
+            style="@style/detailText1"
+            android:text="@string/earthDate"
+            app:layout_constraintTop_toBottomOf="@+id/dialogContentImage"
+            tools:layout_editor_absoluteX="61dp" />
+
+        <TextView
+            android:id="@+id/earthDateTw"
+            style="@style/detailText2"
+ />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/id"
+            style="@style/detailText1"
+            android:text="@string/id" />
+
+        <TextView
+            android:id="@+id/idTw"
+            style="@style/detailText2"
+ />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/roverID"
+            style="@style/detailText1"
+            android:text="@string/roverID"
+/>
+
+        <TextView
+            android:id="@+id/roverIDTw"
+            style="@style/detailText2"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/roverLandDate"
+            style="@style/detailText1"
+            android:text="@string/roverLand"/>
+
+        <TextView
+            android:id="@+id/roverLandDateTw"
+            style="@style/detailText2"
+ />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/roverLaunchDate"
+            style="@style/detailText1"
+            android:text="@string/roverLaunch" />
+
+        <TextView
+            android:id="@+id/roverLaunchDateTw"
+            style="@style/detailText2"
+ />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/roverName"
+            style="@style/detailText1"
+            android:text="@string/roverName" />
+
+        <TextView
+            android:id="@+id/roverNameTw"
+            style="@style/detailText2"
+ />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/detailSubLayout">
+        <TextView
+            android:id="@+id/roverStatus"
+            style="@style/detailText1"
+            android:text="@string/roverStatus" />
+
+        <TextView
+            android:id="@+id/roverStatusTw"
+            style="@style/detailText2" />
+
+    </LinearLayout>
+
+</LinearLayout>

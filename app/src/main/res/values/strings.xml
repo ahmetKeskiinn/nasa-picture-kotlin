@@ -10,4 +10,16 @@
     <string name="mediaDownloading">Media will be download!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="earthDate">Earth Date: </string>
+    <string name="id">ID: </string>
+    <string name="roverID">Rover ID: </string>
+    <string name="roverLand">Rover Landing Date: </string>
+    <string name="roverLaunch">Rover Launch Date: </string>
+    <string name="roverName">Rover Name: </string>
+    <string name="roverStatus">Rover Status: </string>
+    <string name="cameraFullName">Camera Full Name: </string>
+    <string name="cameraID">Camera ID: </string>
+    <string name="cameraName">Camera Name:</string>
+    <string name="cameraRoverID">Camera Rover ID: </string>
+    <string name="exit">Exit</string>
 </resources>

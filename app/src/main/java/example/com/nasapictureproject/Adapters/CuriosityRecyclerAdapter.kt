@@ -6,15 +6,14 @@ import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.media.Image
-import android.net.Uri
-import android.os.Environment
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -23,20 +22,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import example.com.nasapictureproject.Models.Photo
 import example.com.nasapictureproject.R
 import java.io.File
-import kotlin.math.log
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
-class CuriosityRecyclerAdapter(val context:Context, val activity: Activity) :View.OnClickListener, ListAdapter<Photo, CuriosityRecyclerAdapter.CuriosityHolder>(
+
+class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :View.OnClickListener, ListAdapter<Photo, CuriosityRecyclerAdapter.CuriosityHolder>(
         diffCallback
 ) {
+    private lateinit var customLayout:View
     private val TAG = "CURIOSITYADAPTER"
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CuriosityHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
                 R.layout.curiosity_item, parent,
-                false)
+                false
+        )
         return CuriosityHolder(itemView)
     }
 
@@ -55,17 +58,24 @@ class CuriosityRecyclerAdapter(val context:Context, val activity: Activity) :Vie
         holder.download.setOnClickListener {
             askDownload(position)
         }
+        holder.avatar.isClickable = true
+        holder.avatar.setOnClickListener {
+            showDetails(position)
+        }
     }
     private fun askDownload(position: Int): View.OnClickListener? {
-        val builder = AlertDialog.Builder(context)
+        var builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.downloadTitle)
-        builder.setMessage("We have a message")
+        builder.setMessage(R.string.wantToDownload)
         builder.setPositiveButton(R.string.yes) { dialog, which ->
-            Toast.makeText(context,
-                    R.string.mediaDownloading, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                    context,
+                    R.string.mediaDownloading, Toast.LENGTH_SHORT
+            ).show()
+            askPermissions(getItem(position).img_src)
             dialog.cancel()
         }
-        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+        builder.setNegativeButton(R.string.no) { dialog, which ->
 
             dialog.cancel()
 
@@ -74,10 +84,55 @@ class CuriosityRecyclerAdapter(val context:Context, val activity: Activity) :Vie
         return null
     }
 
-    fun askPermissions(imgURL:String) {
-        if (ContextCompat.checkSelfPermission( context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+
+    @SuppressLint("ResourceType")
+    private fun showDetails(position: Int){
+        val item = getItem(position)
+        Log.d(TAG, "showDetails: " + item.img_src)
+        Log.d(TAG, "showDetails: " + item.camera)
+        Log.d(TAG, "showDetails: " + item.earth_date)
+        Log.d(TAG, "showDetails: " + item.id)
+        Log.d(TAG, "showDetails: " + item.rover)
+        var builder = AlertDialog.Builder(context)
+        val inflater = LayoutInflater.from(context)
+        val v: View = activity.layoutInflater.inflate(R.layout.detail_dialog_content, null)
+        val detailImage:ImageView = v.findViewById(R.id.dialogContentImage)
+        val cameraFullName:TextView = v.findViewById(R.id.CamerafullNameTw)
+        val camerName:TextView = v.findViewById(R.id.cameraNameTw)
+        val cameraID:TextView = v.findViewById(R.id.cameraIDTw)
+        val earthDate:TextView = v.findViewById(R.id.earthDateTw)
+        val ID:TextView = v.findViewById(R.id.idTw)
+        val roverID:TextView = v.findViewById(R.id.roverIDTw)
+        val roverLanding:TextView = v.findViewById(R.id.roverLandDateTw)
+        val roverLaunch:TextView = v.findViewById(R.id.roverLaunchDateTw)
+        val roverName:TextView = v.findViewById(R.id.roverNameTw)
+        val roverStatus:TextView = v.findViewById(R.id.roverStatusTw)
+        Glide.with(v).load(getItem(position).img_src).into(detailImage)
+        cameraFullName.setText(getItem(position).camera.full_name)
+        camerName.setText(getItem(position).camera.name)
+        cameraID.setText(getItem(position).camera.id.toString())
+        earthDate.setText(getItem(position).earth_date)
+        ID.setText(getItem(position).id.toString())
+        roverID.setText(getItem(position).rover.id.toString())
+        roverLanding.setText(getItem(position).rover.landing_date)
+        roverLaunch.setText(getItem(position).rover.launch_date)
+        roverName.setText(getItem(position).rover.name)
+        roverStatus.setText(getItem(position).rover.status)
+        builder.setView(v)
+
+        builder.setPositiveButton(R.string.exit) { dialog, which ->
+            dialog.cancel()
+        }
+        builder.show()
+    }
+
+    fun askPermissions(imgURL: String) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            activity,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )) {
                 AlertDialog.Builder(context)
                         .setTitle("Permission required")
                         .setMessage("Permission required to save photos from the Web.")
@@ -101,58 +156,32 @@ class CuriosityRecyclerAdapter(val context:Context, val activity: Activity) :Vie
 
             }
         } else {
-            downloadImage(imgURL)
+            DownloadImageFromPath(imgURL)
         }
     }
 
 
-    private var msg: String? = ""
-    private var lastMsg = ""
-
-    private fun downloadImage(url: String) {
-        val directory = File(Environment.DIRECTORY_PICTURES)
-
-        if (!directory.exists()) {
-            directory.mkdirs()
-        }
-
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        val downloadUri = Uri.parse(url)
-
-        val request = DownloadManager.Request(downloadUri).apply {
-            setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                    .setAllowedOverRoaming(false)
-                    .setTitle(url.substring(url.lastIndexOf("/") + 1))
-                    .setDescription("")
-                    .setDestinationInExternalPublicDir(
-                            directory.toString(),
-                            url.substring(url.lastIndexOf("/") + 1)
-                    )
-        }
-
-        val downloadId = downloadManager.enqueue(request)
-        val query = DownloadManager.Query().setFilterById(downloadId)
-        Thread(Runnable {
-            var downloading = true
-            while (downloading) {
-                val cursor: Cursor = downloadManager.query(query)
-                cursor.moveToFirst()
-                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
-                    downloading = false
-                }
-                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-                msg = statusMessage(url, directory, status)
-                if (msg != lastMsg) {
-
-                    /*context.runOnUiThread {
-                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                    }*/
-                    lastMsg = msg ?: ""
-                }
-                cursor.close()
+    fun DownloadImageFromPath(path: String?) {
+        var `in`: InputStream? = null
+        var bmp: Bitmap? = null
+        //val iv = findViewById(R.id.img1) as ImageView
+        var responseCode = -1
+        try {
+            val url = URL(path) //"http://192.xx.xx.xx/mypath/img1.jpg
+            val con: HttpURLConnection = url.openConnection() as HttpURLConnection
+            con.setDoInput(true)
+            con.connect()
+            responseCode = con.getResponseCode()
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                //download
+                `in` = con.getInputStream()
+                bmp = BitmapFactory.decodeStream(`in`)
+                `in`.close()
+               // iv.setImageBitmap(bmp)
             }
-        }).start()
+        } catch (ex: Exception) {
+            Log.e("Exception", ex.toString())
+        }
     }
 
     private fun statusMessage(url: String, directory: File, status: Int): String? {
@@ -182,6 +211,7 @@ class CuriosityRecyclerAdapter(val context:Context, val activity: Activity) :Vie
 
         val avatar : ImageView = itemView.findViewById(R.id.curisityItemImage)
         val download: ImageView = itemView.findViewById(R.id.downloadButton)
+
     }
 
     override fun onClick(v: View?) {
