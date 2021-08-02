@@ -23,4 +23,8 @@
     <string name="cameraRoverID">Camera Rover ID: </string>
     <string name="exit">Exit</string>
     <string name="openInternet">Please Open Your Internet For Continue!</string>
+
+
+    <string name="downloadingImage">Image Downloading...</string>
+    <string name="downloadedImage">Image Downloaded!</string>
 </resources>

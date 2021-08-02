@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import example.com.nasapictureproject.Models.Photo
 import example.com.nasapictureproject.R
+import example.com.nasapictureproject.Utils.ImageDownloadTask
 import java.io.File
 import java.io.InputStream
 import java.net.HttpURLConnection
@@ -72,7 +73,9 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
                     context,
                     R.string.mediaDownloading, Toast.LENGTH_SHORT
             ).show()
-            askPermissions(getItem(position).img_src)
+            val download:ImageDownloadTask
+            download = ImageDownloadTask(context,getItem(position).img_src,activity)
+            download.execute()
             dialog.cancel()
         }
         builder.setNegativeButton(R.string.no) { dialog, which ->
@@ -117,78 +120,9 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
         builder.show()
     }
 
-    fun askPermissions(imgURL: String) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                            activity,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )) {
-                AlertDialog.Builder(context)
-                        .setTitle("Permission required")
-                        .setMessage("Permission required to save photos from the Web.")
-                        .setPositiveButton("Allow") { dialog, id ->
-                            ActivityCompat.requestPermissions(
-                                    activity,
-                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
-                            )
-                            dialog.cancel()
-
-                        }
-                        .setNegativeButton("Deny") { dialog, id -> dialog.cancel() }
-                        .show()
-            } else {
-                ActivityCompat.requestPermissions(
-                        activity,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
-                )
-
-            }
-        } else {
-            DownloadImageFromPath(imgURL)
-        }
-    }
 
 
-    fun DownloadImageFromPath(path: String?) {
-        var `in`: InputStream? = null
-        var bmp: Bitmap? = null
-        //val iv = findViewById(R.id.img1) as ImageView
-        var responseCode = -1
-        try {
-            val url = URL(path) //"http://192.xx.xx.xx/mypath/img1.jpg
-            val con: HttpURLConnection = url.openConnection() as HttpURLConnection
-            con.setDoInput(true)
-            con.connect()
-            responseCode = con.getResponseCode()
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                //download
-                `in` = con.getInputStream()
-                bmp = BitmapFactory.decodeStream(`in`)
-                `in`.close()
-               // iv.setImageBitmap(bmp)
-            }
-        } catch (ex: Exception) {
-            Log.e("Exception", ex.toString())
-        }
-    }
 
-    private fun statusMessage(url: String, directory: File, status: Int): String? {
-        var msg = ""
-        msg = when (status) {
-            DownloadManager.STATUS_FAILED -> "Download has been failed, please try again"
-            DownloadManager.STATUS_PAUSED -> "Paused"
-            DownloadManager.STATUS_PENDING -> "Pending"
-            DownloadManager.STATUS_RUNNING -> "Downloading..."
-            DownloadManager.STATUS_SUCCESSFUL -> "Image downloaded successfully in $directory" + File.separator + url.substring(
-                    url.lastIndexOf("/") + 1
-            )
-            else -> "There's nothing to download"
-        }
-        return msg
-    }
 
 
     companion object {
