@@ -26,4 +26,9 @@
         android:id="@+id/onPauseFragment"
         android:name="example.com.nasapictureproject.Views.Fragments.OnPauseFragment"
         tools:layout="@layout/fragment_on_pause" />
+    <fragment
+        android:id="@+id/noInternetFragment"
+        android:name="example.com.nasapictureproject.Views.Fragments.NoInternetFragment"
+        android:label="fragment_no_internet"
+        tools:layout="@layout/fragment_no_internet" />
 </navigation>
