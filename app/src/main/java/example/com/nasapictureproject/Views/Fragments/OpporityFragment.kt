@@ -1,6 +1,7 @@
 package example.com.nasapictureproject.Views.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,22 +9,28 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import example.com.nasapictureproject.Adapters.CuriosityRecyclerAdapter
 import example.com.nasapictureproject.R
 import example.com.nasapictureproject.Utils.CurrentFragment
 import example.com.nasapictureproject.ViewModels.OppotunityViewModel
+import example.com.nasapictureproject.ViewModels.SpiritViewModel
 
 class OpporityFragment : Fragment() {
-
+    private var TAG = "OpporityFragment"
     private lateinit var vm: OppotunityViewModel
     private lateinit var sharedPref:CurrentFragment
-
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerAdapter: CuriosityRecyclerAdapter
+    private lateinit var root:View
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_oppority, container, false)
+        root = inflater.inflate(R.layout.fragment_oppority, container, false)
         return root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +44,7 @@ class OpporityFragment : Fragment() {
     override fun onResume() {
         initShared()
         initialUI()
+        hookVM("opportunity", 10,1)
         super.onResume()
     }
 
@@ -57,9 +65,21 @@ class OpporityFragment : Fragment() {
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("oppority")
     }
-    private fun initialUI(){
-        vm = ViewModelProvider(this).get(OppotunityViewModel::class.java)
-    }
 
+    private fun initialUI() {
+        vm = ViewModelProvider(this).get(OppotunityViewModel::class.java)
+        recyclerView = root.findViewById(R.id.opporityRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerAdapter = CuriosityRecyclerAdapter(context!!, activity!!)
+        recyclerView.adapter = recyclerAdapter
+    }
+    private fun hookVM(name:String,per_page:Int,page:Int){
+        //The job will be done!
+        vm.hook(name,per_page,page)
+        vm.gameList.observe(this, Observer {
+            Log.d(TAG, "hookVM: " + it)
+            recyclerAdapter.submitList(it)
+        })
+    }
 
 }

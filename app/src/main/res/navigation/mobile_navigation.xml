@@ -8,23 +8,22 @@
     <fragment
         android:id="@+id/navigation_curiosity"
         android:name="example.com.nasapictureproject.Views.Fragments.CuriosityFragment"
-        android:label="@string/title_home"
+        android:label="@string/Curiosity"
         tools:layout="@layout/fragment_curiosity" />
 
     <fragment
         android:id="@+id/navigation_oppority"
         android:name="example.com.nasapictureproject.Views.Fragments.OpporityFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/Opportunity"
         tools:layout="@layout/fragment_oppority" />
 
     <fragment
         android:id="@+id/navigation_spirit"
         android:name="example.com.nasapictureproject.Views.Fragments.SpiritFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/Spirit"
         tools:layout="@layout/fragment_spirit" />
     <fragment
         android:id="@+id/onPauseFragment"
         android:name="example.com.nasapictureproject.Views.Fragments.OnPauseFragment"
-        android:label="fragment_on_pause"
         tools:layout="@layout/fragment_on_pause" />
 </navigation>

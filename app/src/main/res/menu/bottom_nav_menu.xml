@@ -3,19 +3,20 @@
 
     <item
         android:id="@+id/navigation_curiosity"
-
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:iconTint="@color/black"
+        android:icon="@drawable/bottom_nav_icons"
+        android:title="@string/Curiosity" />
 
     <item
         android:id="@+id/navigation_oppority"
+        android:icon="@drawable/bottom_nav_icons"
 
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="@string/Opportunity" />
 
     <item
         android:id="@+id/navigation_spirit"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:icon="@drawable/bottom_nav_icons"
+
+        android:title="@string/Spirit" />
 
 </menu>

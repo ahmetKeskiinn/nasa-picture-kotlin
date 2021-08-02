@@ -79,10 +79,4 @@ class CuriosityFragment : Fragment() {
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("curiosity")
     }
-    fun getModels(): MutableList<String> {
-        val models = mutableListOf(
-            "Çin", "Pekin"
-        )
-        return models
-    }
 }

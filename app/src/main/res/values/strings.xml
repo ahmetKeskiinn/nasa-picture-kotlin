@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">NasaPictureProject</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="Curiosity">Curiosity</string>
+    <string name="Opportunity">Opportunity</string>
+    <string name="Spirit">Spirit</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="downloadTitle">Download Photo</string>

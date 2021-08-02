@@ -69,10 +69,6 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
         builder.setTitle(R.string.downloadTitle)
         builder.setMessage(R.string.wantToDownload)
         builder.setPositiveButton(R.string.yes) { dialog, which ->
-            Toast.makeText(
-                    context,
-                    R.string.mediaDownloading, Toast.LENGTH_SHORT
-            ).show()
             val download:ImageDownloadTask
             download = ImageDownloadTask(context,getItem(position).img_src,activity)
             download.execute()
