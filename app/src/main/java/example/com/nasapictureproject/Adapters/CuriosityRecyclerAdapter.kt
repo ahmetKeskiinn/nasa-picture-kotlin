@@ -87,12 +87,6 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
 
     @SuppressLint("ResourceType")
     private fun showDetails(position: Int){
-        val item = getItem(position)
-        Log.d(TAG, "showDetails: " + item.img_src)
-        Log.d(TAG, "showDetails: " + item.camera)
-        Log.d(TAG, "showDetails: " + item.earth_date)
-        Log.d(TAG, "showDetails: " + item.id)
-        Log.d(TAG, "showDetails: " + item.rover)
         var builder = AlertDialog.Builder(context)
         val inflater = LayoutInflater.from(context)
         val v: View = activity.layoutInflater.inflate(R.layout.detail_dialog_content, null)
@@ -120,9 +114,6 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
         roverStatus.setText(getItem(position).rover.status)
         builder.setView(v)
 
-        builder.setPositiveButton(R.string.exit) { dialog, which ->
-            dialog.cancel()
-        }
         builder.show()
     }
 

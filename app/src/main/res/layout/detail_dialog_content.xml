@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/detailLayout">
-
     <ImageView
         android:id="@+id/dialogContentImage"
         android:layout_width="match_parent"

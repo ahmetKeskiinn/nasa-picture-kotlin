@@ -35,4 +35,24 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:orientation">horizontal</item>
     </style>
+
+    <style name="recyclerItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="background">@drawable/border_detail</item>
+        <item name="layout_goneMarginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <style name="recyclerImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="recyclerDownload">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
 </resources>

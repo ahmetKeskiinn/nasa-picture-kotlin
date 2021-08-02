@@ -22,4 +22,5 @@
     <string name="cameraName">Camera Name:</string>
     <string name="cameraRoverID">Camera Rover ID: </string>
     <string name="exit">Exit</string>
+    <string name="openInternet">Please Open Your Internet For Continue!</string>
 </resources>
