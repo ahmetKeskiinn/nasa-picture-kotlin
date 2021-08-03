@@ -10,7 +10,7 @@ import example.com.nasapictureproject.Utils.InternetCheckingService
 import example.com.nasapictureproject.Utils.InternetSharedPref
 
 class SplashScreen : AppCompatActivity() {
-    private lateinit var isOnline:InternetSharedPref
+    private lateinit var isOnline: InternetSharedPref
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -21,38 +21,24 @@ class SplashScreen : AppCompatActivity() {
         super.onStart()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-    private fun goMainPage(){
+    private fun goMainPage() {
         val intent = Intent(this, MainActivity::class.java)
         finish()
         startActivity(intent)
     }
-    private fun checkInternet(){
+
+    private fun checkInternet() {
         isOnline = InternetSharedPref()
         isOnline.instancePref(applicationContext)
-        if(isOnline.getInternet().equals("true")){
+        if (isOnline.getInternet().equals("true")) {
             Handler().postDelayed({ this.goMainPage() }, 500)
-        }
-        else{
-            Toast.makeText(this,getString(R.string.openInternet),Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, getString(R.string.openInternet), Toast.LENGTH_SHORT).show()
             Handler().postDelayed({ this.checkInternet() }, 1000)
         }
     }
-    private fun startInternetService(){
+
+    private fun startInternetService() {
         val intent = Intent(this, InternetCheckingService::class.java)
         intent.action = "checkinternet"
         startService(intent)

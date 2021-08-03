@@ -9,20 +9,21 @@ class InternetSharedPref {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-    private var IS_ENABLE_INTERNET:String = "false"
+    private var IS_ENABLE_INTERNET: String = "false"
 
-    fun instancePref(context: Context){
-        sharedPreferences =  context.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+    fun instancePref(context: Context) {
+        sharedPreferences = context.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
     }
 
-    fun setInternet(key:String){
-        editor.putString(IS_ENABLE_INTERNET,key)
+    fun setInternet(key: String) {
+        editor.putString(IS_ENABLE_INTERNET, key)
         editor.apply()
         editor.commit()
     }
+
     fun getInternet(): String? {
-        var sharedValue = sharedPreferences.getString(IS_ENABLE_INTERNET,IS_ENABLE_INTERNET)
+        var sharedValue = sharedPreferences.getString(IS_ENABLE_INTERNET, IS_ENABLE_INTERNET)
         return sharedValue
     }
 

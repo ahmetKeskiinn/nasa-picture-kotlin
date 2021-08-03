@@ -1,11 +1,9 @@
 package example.com.nasapictureproject.Views.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,17 +15,16 @@ import example.com.nasapictureproject.Adapters.CuriosityRecyclerAdapter
 import example.com.nasapictureproject.R
 import example.com.nasapictureproject.Utils.CurrentFragment
 import example.com.nasapictureproject.Utils.InternetSharedPref
-import example.com.nasapictureproject.ViewModels.CuriosityViewModel
 import example.com.nasapictureproject.ViewModels.SpiritViewModel
 
 class SpiritFragment : Fragment() {
     private var TAG = "SpiritFragment"
     private lateinit var vm: SpiritViewModel
-    private lateinit var sharedPref:CurrentFragment
-    private lateinit var root:View
-    private lateinit var recyclerView:RecyclerView
+    private lateinit var sharedPref: CurrentFragment
+    private lateinit var root: View
+    private lateinit var recyclerView: RecyclerView
     private lateinit var internet: InternetSharedPref
-    private lateinit var recyclerAdapter:CuriosityRecyclerAdapter
+    private lateinit var recyclerAdapter: CuriosityRecyclerAdapter
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -37,13 +34,6 @@ class SpiritFragment : Fragment() {
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
     override fun onResume() {
         if (internet.getInternet().equals("true")) {
             initShared()
@@ -56,19 +46,7 @@ class SpiritFragment : Fragment() {
         super.onResume()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    private fun initShared(){
+    private fun initShared() {
         val sharedPref = CurrentFragment()
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("spirit")
@@ -96,6 +74,7 @@ class SpiritFragment : Fragment() {
         }
         return v
     }
+
     private fun initialUI() {
         vm = ViewModelProvider(this).get(SpiritViewModel::class.java)
         recyclerView = root.findViewById(R.id.spiritRecyclerView)
@@ -103,11 +82,10 @@ class SpiritFragment : Fragment() {
         recyclerAdapter = CuriosityRecyclerAdapter(context!!, activity!!)
         recyclerView.adapter = recyclerAdapter
     }
-    private fun hookVM(name:String,per_page:Int,page:Int){
-        //The job will be done!
-        vm.hook(name,per_page,page)
-        vm.gameList.observe(this, Observer {
-            Log.d(TAG, "hookVM: " + it)
+
+    private fun hookVM(name: String, per_page: Int, page: Int) {
+        vm.hook(name, per_page, page)
+        vm.list.observe(this, Observer {
             recyclerAdapter.submitList(it)
         })
     }

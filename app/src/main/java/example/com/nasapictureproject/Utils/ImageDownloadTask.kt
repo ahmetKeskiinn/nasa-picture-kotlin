@@ -5,24 +5,21 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import example.com.nasapictureproject.R
 import java.io.File
 
 class ImageDownloadTask(val context: Context, val url: String, val activity: Activity) : AsyncTask<Void, Void, String>() {
-    private var TAG="TAG"
+    private var TAG = "TAG"
     override fun doInBackground(vararg params: Void?): String? {
         start(url)
         return null
@@ -34,19 +31,18 @@ class ImageDownloadTask(val context: Context, val url: String, val activity: Act
     }
 
     override fun onPostExecute(result: String?) {
-            Toast.makeText(context, context.getString(R.string.downloadedImage), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.downloadedImage), Toast.LENGTH_SHORT).show()
         super.onPostExecute(result)
-        // ...
     }
 
-    private fun start(url: String){
-        Log.d(TAG, "start:")
+    private fun start(url: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             askPermissions()
         } else {
             downloadImage(url)
         }
     }
+
     @TargetApi(Build.VERSION_CODES.M)
     fun askPermissions() {
         if (ContextCompat.checkSelfPermission(
@@ -60,18 +56,18 @@ class ImageDownloadTask(val context: Context, val url: String, val activity: Act
                     )
             ) {
                 AlertDialog.Builder(context)
-                    .setTitle("Permission required")
-                    .setMessage("Permission required to save photos from the Web.")
-                    .setPositiveButton("Allow") { dialog, id ->
-                        ActivityCompat.requestPermissions(
-                                activity,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
-                        )
-                        dialog.cancel()
-                    }
-                    .setNegativeButton("Deny") { dialog, id -> dialog.cancel() }
-                    .show()
+                        .setTitle("Permission required")
+                        .setMessage("Permission required to save photos from the Web.")
+                        .setPositiveButton("Allow") { dialog, id ->
+                            ActivityCompat.requestPermissions(
+                                    activity,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
+                            )
+                            dialog.cancel()
+                        }
+                        .setNegativeButton("Deny") { dialog, id -> dialog.cancel() }
+                        .show()
             } else {
                 ActivityCompat.requestPermissions(
                         activity,
@@ -101,13 +97,13 @@ class ImageDownloadTask(val context: Context, val url: String, val activity: Act
 
         val request = DownloadManager.Request(downloadUri).apply {
             setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false)
-                .setTitle(url.substring(url.lastIndexOf("/") + 1))
-                .setDescription("")
-                .setDestinationInExternalPublicDir(
-                        directory.toString(),
-                        url.substring(url.lastIndexOf("/") + 1)
-                )
+                    .setAllowedOverRoaming(false)
+                    .setTitle(url.substring(url.lastIndexOf("/") + 1))
+                    .setDescription("")
+                    .setDestinationInExternalPublicDir(
+                            directory.toString(),
+                            url.substring(url.lastIndexOf("/") + 1)
+                    )
         }
 
         val downloadId = downloadManager.enqueue(request)
@@ -124,8 +120,6 @@ class ImageDownloadTask(val context: Context, val url: String, val activity: Act
                 msg = statusMessage(url, directory, status)
                 if (msg != lastMsg) {
                     activity.runOnUiThread {
-                  //      filePath = msg.toString()
-
                     }
                     lastMsg = msg ?: ""
                 }
@@ -133,9 +127,10 @@ class ImageDownloadTask(val context: Context, val url: String, val activity: Act
             }
         }).start()
     }
+
     private fun statusMessage(url: String, directory: File, status: Int): String? {
         var msg = ""
-        var x : String = ""
+        var x: String = ""
         msg = when (status) {
             DownloadManager.STATUS_FAILED -> context.getString(R.string.downloadFail)
             DownloadManager.STATUS_PAUSED -> context.getString(R.string.downloadPause)

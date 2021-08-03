@@ -1,14 +1,12 @@
 package example.com.nasapictureproject.Views.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -31,35 +29,14 @@ class CuriosityFragment : Fragment() {
     private lateinit var internet: InternetSharedPref
     private lateinit var internetImage: ImageView
 
-    //  private lateinit var navhostFragment: Fragment
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         root = isOnline(inflater, container, savedInstanceState)
         return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     override fun onResume() {
@@ -81,9 +58,9 @@ class CuriosityFragment : Fragment() {
     }
 
     private fun isOnline(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
 
         val v: View
@@ -102,9 +79,9 @@ class CuriosityFragment : Fragment() {
         vm = ViewModelProvider(this).get(CuriosityViewModel::class.java)
         recyclerView = root.findViewById(R.id.coriosityRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.VERTICAL,
-            false
+                context,
+                LinearLayoutManager.VERTICAL,
+                false
         )
         recyclerAdapter = CuriosityRecyclerAdapter(context!!, activity!!)
         recyclerView.adapter = recyclerAdapter
@@ -112,10 +89,8 @@ class CuriosityFragment : Fragment() {
     }
 
     private fun hookVM(name: String, per_page: Int, page: Int) {
-        //The job will be done!
         vm.hook(name, per_page, page)
-        vm.gameList.observe(this, Observer {
-            Log.d(TAG, "hookVM: " + it)
+        vm.list.observe(this, Observer {
             recyclerAdapter.submitList(it)
         })
     }
@@ -125,6 +100,4 @@ class CuriosityFragment : Fragment() {
         context?.let { sharedPref.instancePref(it) }
         sharedPref.setCurrentFragment("curiosity")
     }
-
-
 }

@@ -7,21 +7,20 @@ import android.net.ConnectivityManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
 
 class InternetCheckingService() : Service() {
 
-    private lateinit var c:Context
-    private lateinit var internet:InternetSharedPref
+    private lateinit var c: Context
+    private lateinit var internet: InternetSharedPref
     private var a = 1
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
-    constructor(context: Context) : this() {
-        Log.d("TAG", "asdsadasdasda: ")
-        this.c = context
 
+    constructor(context: Context) : this() {
+        this.c = context
     }
+
     override fun onCreate() {
         super.onCreate()
         internet = InternetSharedPref()
@@ -36,11 +35,7 @@ class InternetCheckingService() : Service() {
     fun isOnline(c: Context): Boolean {
         val cm = c.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val ni = cm.activeNetworkInfo
-        return if (ni != null && ni.isConnectedOrConnecting) {
-            true
-        } else {
-            false
-        }
+        return ni != null && ni.isConnectedOrConnecting
     }
 
     var handler = Handler()

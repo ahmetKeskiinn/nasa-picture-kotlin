@@ -1,7 +1,6 @@
 package example.com.nasapictureproject.Views
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -23,12 +22,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
-    private lateinit var sharedPref:CurrentFragment
-    private lateinit var api:Api
+    private lateinit var sharedPref: CurrentFragment
+    private lateinit var api: Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navView  = findViewById(R.id.nav_view)
+        navView = findViewById(R.id.nav_view)
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(setOf(
@@ -36,10 +35,6 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     override fun onStop() {
@@ -57,37 +52,39 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
 
     }
+
     override fun onResume() {
         initSharedPref()
         setColor()
         enableVisible()
         super.onResume()
     }
-    private fun disableVisible(){
+
+    private fun disableVisible() {
         navController.navigate(R.id.onPauseFragment)
         navView.isVisible = false
     }
-    private fun enableVisible(){
-        Toast.makeText(this, sharedPref.getCurrentFragment(), Toast.LENGTH_SHORT).show()
-        if(sharedPref.getCurrentFragment().equals("curiosity") || sharedPref.getCurrentFragment().equals("false")){
+
+    private fun enableVisible() {
+        if (sharedPref.getCurrentFragment().equals("curiosity") || sharedPref.getCurrentFragment().equals("false")) {
             navController.navigate(R.id.navigation_curiosity)
-        }
-        else if(sharedPref.getCurrentFragment().equals("oppority") ){
+        } else if (sharedPref.getCurrentFragment().equals("oppority")) {
             navController.navigate(R.id.navigation_oppority)
 
-        }
-        else if(sharedPref.getCurrentFragment().equals("spirit")){
+        } else if (sharedPref.getCurrentFragment().equals("spirit")) {
             navController.navigate(R.id.navigation_spirit)
 
         }
         navView.isVisible = true
     }
-    private fun initSharedPref(){
+
+    private fun initSharedPref() {
         sharedPref = CurrentFragment()
         sharedPref.instancePref(applicationContext)
     }
-    private fun setColor(){
+
+    private fun setColor() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.turq))
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.turq)
     }
-    }
+}
