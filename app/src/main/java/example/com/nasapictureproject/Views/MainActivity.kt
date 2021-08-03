@@ -1,28 +1,21 @@
 package example.com.nasapictureproject.Views
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import example.com.nasapictureproject.Models.AllPhotos
-import example.com.nasapictureproject.Models.Photo
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import example.com.nasapictureproject.R
 import example.com.nasapictureproject.Utils.Api
 import example.com.nasapictureproject.Utils.CurrentFragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private var TAG = "Activity Main"
@@ -39,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_curiosity, R.id.navigation_oppority, R.id.navigation_spirit
+                R.id.navigation_curiosity, R.id.navigation_oppority, R.id.navigation_spirit
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -66,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onResume() {
         initSharedPref()
+        setColor()
         enableVisible()
         super.onResume()
     }
@@ -74,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         navView.isVisible = false
     }
     private fun enableVisible(){
-        Toast.makeText(this,sharedPref.getCurrentFragment(),Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, sharedPref.getCurrentFragment(), Toast.LENGTH_SHORT).show()
         if(sharedPref.getCurrentFragment().equals("curiosity") || sharedPref.getCurrentFragment().equals("false")){
             navController.navigate(R.id.navigation_curiosity)
         }
@@ -91,5 +85,9 @@ class MainActivity : AppCompatActivity() {
     private fun initSharedPref(){
         sharedPref = CurrentFragment()
         sharedPref.instancePref(applicationContext)
+    }
+    private fun setColor(){
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.turq))
     }
     }

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#0000ffff</color>
     <color name="turq">#40E0D0</color>
+    <color name="mainRecyclerColor">#f5ebd0</color>
 </resources>

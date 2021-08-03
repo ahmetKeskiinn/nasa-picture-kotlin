@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import example.com.nasapictureproject.R
+import example.com.nasapictureproject.Utils.CurrentFragment
 import example.com.nasapictureproject.Utils.InternetSharedPref
 
-class NoInternetFragment : Fragment() {
+class NoInternetFragment() : Fragment() {
     private lateinit var root:View
     private lateinit var internet:InternetSharedPref
+    private lateinit var currentFragment: CurrentFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -48,6 +50,8 @@ class NoInternetFragment : Fragment() {
         super.onStop()
     }
     private fun initShared(){
+        currentFragment = CurrentFragment()
+        context?.let { currentFragment.instancePref(it) }
         internet = InternetSharedPref()
         context?.let { internet.instancePref(it) }
         isOnline()
@@ -59,8 +63,21 @@ class NoInternetFragment : Fragment() {
     }
     private fun isOnline(){
         if(checkInternet().equals("true")){
-            Navigation.findNavController(root).navigate(R.id.navigation_curiosity)
-        }
+            Log.d("TAG", "isOnline: " + currentFragment.getCurrentFragment())
+            if(currentFragment.getCurrentFragment().equals("spirit")){
+                Navigation.findNavController(root).navigate(R.id.navigation_spirit)
+            }
+            else if(currentFragment.getCurrentFragment().equals("opportunity")){
+                Navigation.findNavController(root).navigate(R.id.navigation_oppority)
+            }
+            else if(currentFragment.getCurrentFragment().equals("false")|| currentFragment.getCurrentFragment().equals("curiosity")){
+                Navigation.findNavController(root).navigate(R.id.navigation_curiosity)
+             //   Log.d(TAG, "isOnline: ")
+            }
+
+            }
+
+
         else{
             Handler().postDelayed({ this.isOnline() }, 1000)
         }

@@ -46,25 +46,21 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: CuriosityHolder, position: Int) {
-      //  val media = /*getItem(position).img_src*/ "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-"
         val media = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg"
         Log.d(TAG, "onBindViewHolder: " + getItem(position).img_src)
         if (media !== null) {
             Glide.with(holder.avatar)
                     .load(getItem(position).img_src)
                     .into(holder.avatar)
-        }       //  Picasso.get().load(getItem(position).img_src.toString()).into(holder.avatar)
+        }
         holder.download.isClickable=true
         holder.download.setOnClickListener(this)
         holder.download.setOnClickListener {
-            askDownload(position)
+            askDownload(position,"download")
         }
-        holder.avatar.isClickable = true
-        holder.avatar.setOnClickListener {
-            showDetails(position)
-        }
+
     }
-    private fun askDownload(position: Int): View.OnClickListener? {
+    private fun askDownload(position: Int, type:String): View.OnClickListener? {
         var builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.downloadTitle)
         builder.setMessage(R.string.wantToDownload)
@@ -75,7 +71,6 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
             dialog.cancel()
         }
         builder.setNegativeButton(R.string.no) { dialog, which ->
-
             dialog.cancel()
 
         }
@@ -115,11 +110,6 @@ class CuriosityRecyclerAdapter(val context: Context, val activity: Activity) :Vi
 
         builder.show()
     }
-
-
-
-
-
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1

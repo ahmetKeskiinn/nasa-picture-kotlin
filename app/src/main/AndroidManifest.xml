@@ -28,6 +28,7 @@
             android:name=".Utils.InternetCheckingService"
             android:enabled="true"
             android:exported="true" />
+
     </application>
 
 </manifest>

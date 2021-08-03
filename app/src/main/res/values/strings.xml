@@ -27,5 +27,10 @@
 
     <string name="downloadingImage">Image Downloading...</string>
     <string name="downloadedImage">Image Downloaded!</string>
+    <string name="downloadedImageSendMail">Image Downloaded! We Are Ready To Send Mail!</string>
+    <string name="downloadFail">Download has been failed, please try again</string>
+    <string name="downloadPause">Paused</string>
+    <string name="downloadPending">Pending</string>
+    <string name="downloadRunning">Downloading...</string>
     <string name="noInternet">Please Turn On Your Internet!</string>
 </resources>

@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
@@ -16,11 +17,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import example.com.nasapictureproject.R
 import java.io.File
-import kotlin.coroutines.coroutineContext
 
-class ImageDownloadTask(val context:Context, val url: String, val activity:Activity) : AsyncTask<Void, Void, String>() {
+class ImageDownloadTask(val context: Context, val url: String, val activity: Activity) : AsyncTask<Void, Void, String>() {
     private var TAG="TAG"
     override fun doInBackground(vararg params: Void?): String? {
         start(url)
@@ -28,17 +29,18 @@ class ImageDownloadTask(val context:Context, val url: String, val activity:Activ
     }
 
     override fun onPreExecute() {
-        Toast.makeText(context,context.getString(R.string.downloadingImage), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.downloadingImage), Toast.LENGTH_SHORT).show()
         super.onPreExecute()
     }
 
     override fun onPostExecute(result: String?) {
-        Toast.makeText(context,context.getString(R.string.downloadedImage), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.downloadedImage), Toast.LENGTH_SHORT).show()
         super.onPostExecute(result)
         // ...
     }
-    private fun start(url:String){
-        Log.d(TAG, "start:" )
+
+    private fun start(url: String){
+        Log.d(TAG, "start:")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             askPermissions()
         } else {
@@ -48,47 +50,36 @@ class ImageDownloadTask(val context:Context, val url: String, val activity:Activ
     @TargetApi(Build.VERSION_CODES.M)
     fun askPermissions() {
         if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+                        context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Permission is not granted
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    activity,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
+                            activity,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
             ) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
                 AlertDialog.Builder(context)
                     .setTitle("Permission required")
                     .setMessage("Permission required to save photos from the Web.")
                     .setPositiveButton("Allow") { dialog, id ->
                         ActivityCompat.requestPermissions(
-                            activity,
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
+                                activity,
+                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
                         )
                         dialog.cancel()
                     }
                     .setNegativeButton("Deny") { dialog, id -> dialog.cancel() }
                     .show()
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
+                        activity,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
                 )
-                // MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-
             }
         } else {
-            // Permission has already been granted
             downloadImage(url)
         }
     }
@@ -114,8 +105,8 @@ class ImageDownloadTask(val context:Context, val url: String, val activity:Activ
                 .setTitle(url.substring(url.lastIndexOf("/") + 1))
                 .setDescription("")
                 .setDestinationInExternalPublicDir(
-                    directory.toString(),
-                    url.substring(url.lastIndexOf("/") + 1)
+                        directory.toString(),
+                        url.substring(url.lastIndexOf("/") + 1)
                 )
         }
 
@@ -133,7 +124,8 @@ class ImageDownloadTask(val context:Context, val url: String, val activity:Activ
                 msg = statusMessage(url, directory, status)
                 if (msg != lastMsg) {
                     activity.runOnUiThread {
-                     //   Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                  //      filePath = msg.toString()
+
                     }
                     lastMsg = msg ?: ""
                 }
@@ -141,16 +133,16 @@ class ImageDownloadTask(val context:Context, val url: String, val activity:Activ
             }
         }).start()
     }
-
     private fun statusMessage(url: String, directory: File, status: Int): String? {
         var msg = ""
+        var x : String = ""
         msg = when (status) {
-            DownloadManager.STATUS_FAILED -> "Download has been failed, please try again"
-            DownloadManager.STATUS_PAUSED -> "Paused"
-            DownloadManager.STATUS_PENDING -> "Pending"
-            DownloadManager.STATUS_RUNNING -> "Downloading..."
-            DownloadManager.STATUS_SUCCESSFUL -> "Image downloaded successfully in $directory" + File.separator + url.substring(
-                url.lastIndexOf("/") + 1
+            DownloadManager.STATUS_FAILED -> context.getString(R.string.downloadFail)
+            DownloadManager.STATUS_PAUSED -> context.getString(R.string.downloadPause)
+            DownloadManager.STATUS_PENDING -> context.getString(R.string.downloadPending)
+            DownloadManager.STATUS_RUNNING -> context.getString(R.string.downloadRunning)
+            DownloadManager.STATUS_SUCCESSFUL -> directory.toString() + File.separator + url.substring(
+                    url.lastIndexOf("/") + 1
             )
             else -> "There's nothing to download"
         }
